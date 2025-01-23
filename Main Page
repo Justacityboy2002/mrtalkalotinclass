@@ -1,0 +1,56 @@
+// HTML structure
+const appHTML = `
+  <div id="app" style="font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: auto;">
+    <h1>Classroom Thought Saver</h1>
+    <div>
+      <label for="countdown">Countdown Timer:</label>
+      <div id="timer" style="font-size: 2em; margin: 10px 0;">10</div>
+      <button id="startTimer" style="padding: 10px 15px;">Start Timer</button>
+    </div>
+    <hr>
+    <div>
+      <label for="thoughts">Write down your thoughts:</label>
+      <textarea id="thoughts" rows="5" style="width: 100%; margin-top: 10px;"></textarea>
+    </div>
+    <button id="clearNotes" style="margin-top: 10px; padding: 10px 15px;">Clear Notes</button>
+  </div>
+`;
+
+document.body.innerHTML = appHTML;
+
+// JavaScript logic
+let countdown = 10;
+let timerInterval;
+
+const timerDisplay = document.getElementById('timer');
+const startButton = document.getElementById('startTimer');
+const clearNotesButton = document.getElementById('clearNotes');
+const thoughtsArea = document.getElementById('thoughts');
+
+// Function to start the timer
+function startTimer() {
+  if (timerInterval) return; // Prevent multiple timers from starting
+
+  countdown = 10; // Reset countdown
+  timerDisplay.textContent = countdown;
+
+  timerInterval = setInterval(() => {
+    countdown--;
+    timerDisplay.textContent = countdown;
+
+    if (countdown <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerDisplay.textContent = "Time's up!";
+    }
+  }, 1000);
+}
+
+// Function to clear notes
+function clearNotes() {
+  thoughtsArea.value = '';
+}
+
+// Event listeners
+startButton.addEventListener('click', startTimer);
+clearNotesButton.addEventListener('click', clearNotes);
